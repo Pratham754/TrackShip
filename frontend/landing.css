@@ -1,5 +1,4 @@
-
-body{
+body {
     background-color: darkslategray;
 }
 
@@ -11,12 +10,53 @@ body{
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 .login-container h2 {
     margin-bottom: 20px;
 }
+
 .login-container input {
     width: 100%;
     padding: 10px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+.dropdown-menu {
+    left: -200px !important;
+    right: auto !important;
+    min-width: 300px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.navbar .dropdown {
+    position: relative;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
+.navbar .dropdown-item {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.collapse {
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.form-column {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.form-column .collapse {
+    width: 48%;
 }
