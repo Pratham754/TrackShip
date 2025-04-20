@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Jobs - Delivery Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="border-end bg-white" id="sidebar-wrapper">
+            <div class="sidebar-heading bg-primary text-white py-3 px-3">
+                <i class="fas fa-truck me-2"></i>Delivery Portal
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="/delivery-guy" class="list-group-item list-group-item-action">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+                <a href="/delivery-guy/jobs-pending" class="list-group-item list-group-item-action active">
+                    <i class="fas fa-clock me-2"></i>Jobs Pending
+                </a>
+                <a href="/delivery-guy/jobs-done" class="list-group-item list-group-item-action">
+                    <i class="fas fa-check-circle me-2"></i>Completed Jobs
+                </a>
+            </div>
+            <div class="mt-auto p-3 border-top">
+                <form action="/logout" method="POST">
+                    <button type="submit" class="btn btn-outline-danger w-100">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Page content wrapper -->
+        <div id="page-content-wrapper">
+            <!-- Top navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+                <div class="container-fluid">
+                    <button class="btn btn-sm btn-primary" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="ms-2 d-none d-md-inline">Delivery Management System</div>
+                    <div class="ms-auto d-flex align-items-center">
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle me-1"></i> Delivery Guy
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li>
+                                    <form action="/logout" method="POST">
+                                        <button type="submit" class="dropdown-item">
+                                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Page content -->
+            <div class="container-fluid p-4">
+                <h1 class="mb-4">Pending Jobs</h1>
+                
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fas fa-clock me-2"></i>Pending Delivery Jobs
+                            </div>
+                            <div class="d-flex">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-search text-muted"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="searchInput" placeholder="Search pending jobs...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Contact Name</th>
+                                        <th>Location</th>
+                                        <th>Contact Info</th>
+                                        <th>Job Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pendingJobsTable">
+                                    <tr>
+                                        <td colspan="4" class="text-center py-4">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle sidebar
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('wrapper').classList.toggle('toggled');
+        });
+
+        // Fetch and display pending jobs
+        let pendingJobs = [];
+        
+        window.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const response = await fetch('/api/jobs');
+                const allJobs = await response.json();
+                pendingJobs = allJobs.filter(job => job.status === 'pending');
+                renderJobs(pendingJobs);
+                
+                // Setup search functionality
+                document.getElementById('searchInput').addEventListener('input', function(e) {
+                    const searchTerm = e.target.value.toLowerCase();
+                    const filteredJobs = pendingJobs.filter(job => 
+                        job.contactName.toLowerCase().includes(searchTerm) ||
+                        job.location.toLowerCase().includes(searchTerm) ||
+                        job.contactInfo.toLowerCase().includes(searchTerm) ||
+                        job.jobDescription.toLowerCase().includes(searchTerm)
+                    );
+                    renderJobs(filteredJobs);
+                });
+                
+            } catch (error) {
+                console.error('Error fetching jobs:', error);
+                document.getElementById('pendingJobsTable').innerHTML = `
+                    <tr>
+                        <td colspan="4" class="text-center text-danger">
+                            <i class="fas fa-exclamation-circle me-2"></i>Error loading jobs. Please try again.
+                        </td>
+                    </tr>
+                `;
+            }
+        });
+        
+        function renderJobs(jobs) {
+            const tableBody = document.getElementById('pendingJobsTable');
+            
+            if (jobs.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="text-center py-4">
+                            No pending jobs found. All jobs are completed!
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tableBody.innerHTML = '';
+            
+            jobs.forEach(job => {
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>${job.contactName}</td>
+                        <td>${job.location}</td>
+                        <td>${job.contactInfo}</td>
+                        <td>${job.jobDescription}</td>
+                    </tr>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>
