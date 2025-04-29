@@ -9,15 +9,6 @@
     "status": "complete"
   },
   {
-    "id": "7d6af070-8cd4-4708-898c-636cc7c5763c",
-    "contactName": "Arghya Dutta",
-    "location": "West Bengal",
-    "contactInfo": "6969696969",
-    "jobDescription": "idbquidbewquibfwuebfd",
-    "assignedTo": "deliveryguy",
-    "status": "pending"
-  },
-  {
     "id": "62175b26-b91f-4c34-bd6b-4ba196b0e520",
     "contactName": "Arghya Dutta",
     "location": "West Bengal",
@@ -42,7 +33,7 @@
     "contactInfo": "instagram",
     "jobDescription": "boxes to deliver",
     "assignedTo": "deliveryguy",
-    "status": "pending"
+    "status": "complete"
   },
   {
     "id": "6874da62-f2f7-4ebe-8f16-44265f13de9d",
@@ -52,5 +43,23 @@
     "jobDescription": "Croissant Box",
     "assignedTo": "deliveryguy",
     "status": "pending"
+  },
+  {
+    "id": "eabdaec5-4ffe-4a61-95e9-3c4f2221e43c",
+    "contactName": "Om Sharma",
+    "location": "Jalandhar",
+    "contactInfo": "97130136561",
+    "jobDescription": "iPhone 16 128GB Black",
+    "assignedTo": "deliveryguy",
+    "status": "pending"
+  },
+  {
+    "id": "f611b4fb-295b-49b9-8657-85b3d6fc5e75",
+    "contactName": "Yalla Vishal",
+    "location": "AP",
+    "contactInfo": "8765456781",
+    "jobDescription": "Pool Table",
+    "assignedTo": "deliveryguy",
+    "status": "out-for-delivery"
   }
 ]

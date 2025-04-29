@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config();
 const fs = require('fs/promises');
@@ -12,7 +11,6 @@ const { v4: uuidv4 } = require('uuid');
 const app = express();
 const PORT = 3000;
 
-// MongoDB setup
 const connectDB = require('./db');
 const User = require('./models/User');
 const LoginLog = require('./models/LoginLog');
@@ -42,7 +40,6 @@ app.use(session({
 
 let deliveryJobs = [];
 
-// Middleware: Authentication
 function isAuthenticated(req, res, next) {
     if (req.session.user) return next();
     res.redirect('/');
@@ -256,11 +253,9 @@ app.get('/api/jobs/delivery', isAuthenticated, hasRole('deliveryguy'), async (re
     try {
         const user = req.session.user;
 
-        // Load jobs from file
         const jobsData = await fs.readFile(path.join(__dirname, 'src', 'jobs.json'), 'utf-8');
         const jobs = JSON.parse(jobsData);
 
-        // Filter jobs assigned to this delivery guy
         const assignedJobs = jobs.filter(job => job.assignedTo === user.username);
 
         res.json({ jobs: assignedJobs });

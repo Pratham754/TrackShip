@@ -20,16 +20,16 @@
                     <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                 </a>
                 <a href="/manager/assign-job" class="list-group-item list-group-item-action">
-                    <i class="fas fa-plus-circle me-2"></i>Assign Job
+                    <i class="fas fa-plus-circle me-2"></i>Assign Delivery
                 </a>
                 <a href="/manager/jobs-assigned" class="list-group-item list-group-item-action active">
-                    <i class="fas fa-clipboard-list me-2"></i>Jobs Assigned
+                    <i class="fas fa-clipboard-list me-2"></i>Delivery History
                 </a>
                 <a href="/manager/jobs-done" class="list-group-item list-group-item-action">
-                    <i class="fas fa-check-circle me-2"></i>Jobs Completed
+                    <i class="fas fa-check-circle me-2"></i>Delivery Complete
                 </a>
                 <a href="/manager/jobs-pending" class="list-group-item list-group-item-action">
-                    <i class="fas fa-clock me-2"></i>Jobs Pending
+                    <i class="fas fa-clock me-2"></i>Delivery Pending
                 </a>
             </div>
             <div class="mt-auto p-3 border-top">
@@ -41,9 +41,7 @@
             </div>
         </div>
         
-        <!-- Page content wrapper -->
         <div id="page-content-wrapper">
-            <!-- Top navigation -->
             <nav class="navbar navbar-expand-lg navbar-light border-bottom">
                 <div class="container-fluid">
                     <button class="btn btn-sm btn-primary" id="sidebarToggle">
@@ -168,7 +166,6 @@
                 container.innerHTML += renderSection('Completed Jobs', grouped.complete, 'text-success', 'fas fa-check-circle');
                 container.innerHTML += renderSection('Other Statuses', grouped.other, 'text-secondary', 'fas fa-box');
 
-                // Setup search functionality
                 document.getElementById('searchInput').addEventListener('input', function(e) {
                     const searchTerm = e.target.value.toLowerCase();
                     const allJobCards = document.querySelectorAll('.job-card');
@@ -184,7 +181,6 @@
                         }
                     });
                     
-                    // Check if any section is empty after filtering
                     const sections = document.querySelectorAll('h4.fw-semibold');
                     sections.forEach(section => {
                         const nextSibling = section.nextElementSibling;
@@ -201,7 +197,6 @@
                         }
                     });
                     
-                    // Show no results message if needed
                     if (!hasVisibleCards) {
                         const noResultsMsg = document.getElementById('no-results');
                         if (!noResultsMsg) {

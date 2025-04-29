@@ -6,7 +6,7 @@ const jobSchema = new mongoose.Schema({
     contactInfo: String,
     jobDescription: String,
     assignedTo: String,
-    status: { type: String, enum: ['pending', 'complete'], default: 'pending' },
+    status: { type: String, enum: ['pending','out-for-delivery', 'complete'], default: 'pending' },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Job', jobSchema);

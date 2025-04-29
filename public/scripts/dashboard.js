@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const jobs = await response.json();
 
     const jobList = document.getElementById('jobList');
-    jobList.innerHTML = ''; // clear existing content
+    jobList.innerHTML = '';
 
     jobs.forEach(job => {
         const li = document.createElement('li');
